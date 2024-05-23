@@ -4,7 +4,7 @@ import styles from './ReposList.module.css';
 const ReposList = ({ nomeUsuario }) => {
     const [repos, setRepos] = useState([]);
     const [estaCarregando, setEstaCarregando] = useState(true);
-    const [deuErro, setDeuErro] = useState(false);
+    const [deuErro, setDeuErro] = useState(true);
     const [mensagemErro, setMensagemErro] = useState('');
 
     useEffect(() => {
@@ -14,8 +14,8 @@ const ReposList = ({ nomeUsuario }) => {
                 if (!res.ok) {
                     throw new Error('Usuário não encontrado. Verifique o nome de usuário.');
                 }
+                return res.json();
             })
-            .then(res => res.json())
             .then(resJson => {
                 setTimeout(() => {
                     setEstaCarregando(false);
@@ -27,6 +27,7 @@ const ReposList = ({ nomeUsuario }) => {
                 setMensagemErro(`Erro ao carregar repositórios do usuário ${nomeUsuario}. Verifique se o nome de usuário é válido.`);
             });
     }, [nomeUsuario]);
+    
 
     return (
         <div className="container">
